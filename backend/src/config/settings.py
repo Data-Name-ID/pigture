@@ -5,12 +5,10 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(BASE_DIR.parent / ".env")
-
 env = environ.Env()
 env.prefix = "DJANGO_"
 
 PORT = env.int("PORT", default=8000)
-
 DEBUG = env.bool("DEBUG", default=True)
 SECRET_KEY = env.str("SECRET_KEY", default="fake-key")
 
@@ -22,36 +20,29 @@ CSRF_TRUSTED_ORIGINS = env.list(
     "CSRF_TRUSTED_ORIGINS",
     default=[f"http://{host}:{PORT}" for host in ALLOWED_HOSTS],
 )
+CORS_ALLOW_ALL_ORIGINS = True
 
 DOCKER = env.bool("DOCKER", default=False)
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "core.apps.CoreConfig",
-    "images.apps.ImagesConfig",
-=======
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
-    'marking.apps.MarkingConfig',
-    'images.apps.ImagesConfig',
+
+    'corsheaders',
     'rest_framework',
->>>>>>> 12db00dcabac8c87833f939437a018886736330e
+    'core.apps.CoreConfig',
+    'images.apps.ImagesConfig',
+    'marking.apps.MarkingConfig',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -127,12 +118,6 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://your-nextjs-app-domain.com",
-]
-
 
 if DEBUG:
     INSTALLED_APPS = [
