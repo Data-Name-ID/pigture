@@ -28,7 +28,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <Toaster position="bottom-right" />
-                <div className="min-h-screen grid ">
+                <div className="min-h-screen grid">
                     <main className="flex flex-col gap-8 items-center sm:items-start">{children}</main>
                 </div>
             </body>
