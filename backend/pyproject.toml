@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "pigture"
+version = "0.1.0"
+description = ""
+authors = ["Data-Name-ID <data.name.id@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "==4.2.*"
+django-environ = "^0.11.2"
+django-debug-toolbar = "^4.4.6"
+djangorestframework = "^3.15.2"
+pillow = "^11.0.0"
+
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+[tool.ruff]
+line-length = 79
+src = ["src"]
+target-version = "py312"
+
+[tool.ruff.lint]
+preview = true
+
+select = ["ALL"]
+ignore = ["D", "DOC", "ANN", "RUF001", "RUF002", "RUF003", "CPY"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
