@@ -1,26 +1,13 @@
 from django.db import models
 
-import core.models
-
-
-class Category(core.models.AbstractModel):
-    class Meta:
-        verbose_name = "категория"
-        verbose_name_plural = "категории"
-
-
-class Tag(core.models.AbstractModel):
-    class Meta:
-        verbose_name = "тег"
-        verbose_name_plural = "теги"
+import marking.models
 
 
 class Image(models.Model):
     image = models.ImageField(verbose_name="картинка", upload_to="images/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(
-        Category,
-        db_column="category_id",
+        marking.models.Category,
         help_text="Выберите категорию",
         on_delete=models.SET_NULL,
         related_name="images",
@@ -28,7 +15,7 @@ class Image(models.Model):
         blank=True,
     )
     tags = models.ManyToManyField(
-        Tag,
+        marking.models.Tag,
         blank=True,
         help_text="Выберите теги",
     )

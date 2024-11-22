@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'marking.apps.MarkingConfig',
     'images.apps.ImagesConfig',
     'rest_framework',
 ]
