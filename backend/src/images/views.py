@@ -11,7 +11,7 @@ class ImageUploadView(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, *args, **kwargs):
-        file = request.FILES.get("file")
+        file = request.FILES.get("image")
         if not file:
             return Response(
                 {"error": "No file provided"},
