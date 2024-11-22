@@ -2,10 +2,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+import config.routers
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('images/', include('images.urls')),
+    path("admin/", admin.site.urls),
+    path("images/", include("images.urls")),
+    path("", include(config.routers.category_router.urls)),
+    path("", include(config.routers.tag_router.urls)),
 ]
 
 

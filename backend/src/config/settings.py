@@ -26,6 +26,7 @@ CSRF_TRUSTED_ORIGINS = env.list(
 DOCKER = env.bool("DOCKER", default=False)
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -34,6 +35,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.apps.CoreConfig",
     "images.apps.ImagesConfig",
+=======
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
+    'marking.apps.MarkingConfig',
+    'images.apps.ImagesConfig',
+    'rest_framework',
+>>>>>>> 12db00dcabac8c87833f939437a018886736330e
 ]
 
 MIDDLEWARE = [
