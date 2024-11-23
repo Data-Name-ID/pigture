@@ -11,7 +11,7 @@ def split_image(
 ) -> None:
     img_suffix = Path(img_path).suffix
 
-    image = pyvips.Image.new_from_file(img_path)
+    image = pyvips.Image.new_from_file(img_path, access="sequential")
     image.dzsave(
         output_dir,
         tile_size=tile_size,
@@ -22,12 +22,13 @@ def split_image(
 def compress(
     img_path: str,
     output_dir: str,
-    quality: int,
 ) -> None:
     img_path = Path(img_path)
+    output_dir = Path(output_dir)
     image = pyvips.Image.new_from_file(img_path)
 
     image.write_to_file(
-        output_dir / img_path.name,
-        Q=quality,
+        output_dir / img_path.stem + img_path.suffix,
+        predictor="horizontal",
+        compression="deflate",
     )
