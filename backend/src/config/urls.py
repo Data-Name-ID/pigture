@@ -9,10 +9,10 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-import marking.urls
 import images.urls
-import patients.urls
+import marking.urls
 import notes.urls
+import patients.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),

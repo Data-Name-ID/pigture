@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -16,12 +17,16 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=DEFAULT_HOSTS)
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=ALLOWED_HOSTS)
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")
 
-# if DEBUG:
-#     CORS_ALLOW_ALL_ORIGINS = True
-# else:
-#     CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
-CORS_ALLOW_ALL_ORIGINS = True
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
+
 DOCKER = env.bool("DOCKER", default=False)
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=365),
+}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -155,6 +160,8 @@ STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+TILES_ROOT = MEDIA_ROOT / "tiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

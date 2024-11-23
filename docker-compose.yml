@@ -7,8 +7,6 @@ services:
     depends_on:
       postgres-backend:
         condition: service_healthy
-      rabbit-backend:
-        condition: service_healthy
     environment:
       - DJANGO_DOCKER=True
     env_file:
@@ -32,14 +30,6 @@ services:
       retries: 5
     # command: -p $${POSTGRES_PORT}
 
-  rabbit-backend:
-    image: rabbitmq:4-alpine
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 1s
-      timeout: 3s
-      retries: 5
-
   nginx:
     build: ./nginx
     depends_on:
@@ -61,6 +51,18 @@ services:
       retries: 5
     ports:
       - "6379:6379"
+
+  celery:
+    build: ./backend
+    volumes:
+      - static_volume:/backend/static
+      - media_volume:/backend/media
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: celery -A config worker -l INFO
+    env_file:
+      - .env
 
 volumes:
   static_volume:

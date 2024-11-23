@@ -40,10 +40,11 @@ class Image(core.models.AbstractNameModel):
         null=True,
         blank=True,
     )
-    description = models.TextField(
+    description = models.TextField(  # noqa: DJ001
         verbose_name="описание",
         default="",
         blank=True,
+        null=True,
     )
     metadata = models.JSONField(
         verbose_name="метаданные",
