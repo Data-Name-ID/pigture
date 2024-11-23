@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class AbstractModel(models.Model):
+class NameAbstractModel(models.Model):
     name = models.CharField(
         verbose_name="название",
         db_column="name",
@@ -9,6 +9,9 @@ class AbstractModel(models.Model):
         max_length=150,
         unique=True,
     )
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return self.name
