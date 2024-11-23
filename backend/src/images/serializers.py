@@ -16,6 +16,7 @@ class ImageSerializer(serializers.ModelSerializer):
             "description",
             "metadata",
         ]
+        extra_kwargs = {"name": {"required": True}}
         read_only_fields = ["uploaded_at"]
 
 
