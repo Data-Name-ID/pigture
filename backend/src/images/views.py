@@ -80,7 +80,7 @@ class ImageViewSet(ModelViewSet):
             tags = Tag.objects.filter(id__in=tag_ids)
             image_instance.tags.set(tags)
 
-        process_image(image_instance.image.path, image_instance.id)
+        process_image.delay(image_instance.image.path, image_instance.id)
         Tiles.objects.create(
             image=image_instance,
             file=f"tiles/{image_instance.id}/tiles.dzi",

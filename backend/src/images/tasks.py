@@ -5,6 +5,7 @@ from core.vips import split_image, compress
 
 @app.task
 def process_image(image_path, image_id):
+    print("TEST")
     split_image(
         image_path,
         settings.MEDIA_ROOT / f"tiles/{image_id}/tiles",
