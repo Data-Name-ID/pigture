@@ -64,8 +64,6 @@ services:
     env_file:
       - .env
 
-
-
 volumes:
   static_volume:
   media_volume:
