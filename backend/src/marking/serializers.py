@@ -19,6 +19,3 @@ class TagSerializer(rest_framework.serializers.ModelSerializer):
             marking.models.Tag.id.field.name,
             marking.models.Tag.name.field.name,
         )
-
-
-__all__ = [CategorySerializer]

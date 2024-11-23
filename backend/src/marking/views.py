@@ -12,6 +12,3 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = marking.models.Tag.objects.all()
     serializer_class = marking.serializers.TagSerializer
-
-
-__all__ = [CategoryViewSet, TagViewSet]
