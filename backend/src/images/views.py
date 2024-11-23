@@ -20,6 +20,33 @@ class ImageViewSet(ModelViewSet):
         "POST": ["main_docs", "docs", "labs"],
     }
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.queryset
+
+        category_id = request.query_params.get("category")
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+
+        tag_ids = request.query_params.getlist("tags")
+        if tag_ids:
+            queryset = queryset.filter(tags__id__in=tag_ids).distinct()
+
+        name = request.query_params.get("name")
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        description = request.query_params.get("description")
+        if description:
+            queryset = queryset.filter(description__icontains=description)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         file = request.FILES.get("file")
         if not file:
