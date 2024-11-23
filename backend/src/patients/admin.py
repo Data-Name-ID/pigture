@@ -1,4 +1,3 @@
-import uuid
 import django.contrib
 
 import patients.models
