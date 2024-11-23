@@ -3,8 +3,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 
-from images.models import Image
+from images.models import Image, Tiles
 from images.serializers import ImageSerializer
+from images.tasks import process_image
 from marking.models import Category, Tag
 
 
@@ -44,6 +45,12 @@ class ImageViewSet(ModelViewSet):
         if tag_ids:
             tags = Tag.objects.filter(id__in=tag_ids)
             image_instance.tags.set(tags)
+
+        process_image(image_instance.image.path, image_instance.id)
+        Tiles.objects.create(
+            image=image_instance,
+            file=f"tiles/{image_instance.id}/tiles.dzi",
+        )
 
         serializer = self.get_serializer(image_instance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

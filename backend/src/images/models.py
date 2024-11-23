@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 import marking.models
@@ -43,3 +44,11 @@ class Image(models.Model):
 
     def __str__(self):
         return f"{self.image.name} - {self.uploaded_at}"
+
+
+class Tiles(models.Model):
+    def _upload_to(self, filename):
+        return f"tiles/{self.image_id}/{filename}"
+
+    image = models.OneToOneField(Image, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=_upload_to)
