@@ -1,11 +1,19 @@
-from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 
+import core.models
 import marking.models
 
 
-class Image(models.Model):
+class Image(core.models.NameAbstractModel):
     image = models.ImageField(verbose_name="изображение", upload_to="images/")
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name="images",
+        null=True,
+        blank=True,
+    )
     uploaded_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(
         marking.models.Category,
@@ -20,15 +28,9 @@ class Image(models.Model):
         blank=True,
         help_text="Выберите теги",
     )
-    name = models.CharField(
-        max_length=255,
-        verbose_name="название",
-        null=True,
-        blank=True,
-    )
     description = models.TextField(
         verbose_name="описание",
-        null=True,
+        default="",
         blank=True,
     )
     metadata = models.JSONField(

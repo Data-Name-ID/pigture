@@ -1,7 +1,8 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.response import Response
+from django.http import HttpResponse
 from rest_framework import status
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from images.models import Image, Tiles
 from images.serializers import ImageSerializer
@@ -39,6 +40,7 @@ class ImageViewSet(ModelViewSet):
             name=request.data.get("name"),
             description=request.data.get("description"),
             metadata=request.data.get("metadata", {}),
+            author=request.user,
         )
 
         tag_ids = request.data.getlist("tags")
@@ -56,7 +58,7 @@ class ImageViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         instance = self.get_object()
 
         if "image" in request.data:
