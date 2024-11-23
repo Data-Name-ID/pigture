@@ -4,7 +4,7 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(BASE_DIR.parent / ".env")
+environ.Env.read_env(BASE_DIR.parent.parent / ".env")
 env = environ.Env()
 env.prefix = "BACKEND_"
 
@@ -130,6 +130,7 @@ USE_TZ = True
 TIME_ZONE = "UTC"
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
