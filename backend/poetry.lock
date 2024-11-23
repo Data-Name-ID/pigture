@@ -255,6 +255,17 @@ doc = ["sphinx", "sphinx_rtd_theme"]
 test = ["cffi (>=1.0.0)", "pyperf", "pytest"]
 
 [[package]]
+name = "rest-framework-simplejwt"
+version = "0.0.2"
+description = "PoC of pipreqs dependency confusion"
+optional = false
+python-versions = ">=3.0"
+files = [
+    {file = "rest_framework_simplejwt-0.0.2-py3-none-any.whl", hash = "sha256:620c56826ff4791c4aaa730ec52aed1f4c74b9c20ea15b9fc1a39bdf99a29a30"},
+    {file = "rest_framework_simplejwt-0.0.2.tar.gz", hash = "sha256:035187ce5380e18e8b966610a89b6460fb4b73cd179979343888fb190328125d"},
+]
+
+[[package]]
 name = "ruff"
 version = "0.8.0"
 description = "An extremely fast Python linter and code formatter, written in Rust."
@@ -310,4 +321,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "d8651bcadcd6c2bcc5b51ffdd8f8f4e1ffa1d5a0aef7b2aafb5e63c8a3e72871"
+content-hash = "1c251c7ecabc31a5be9aad4f99757833e4973ac640fadb5eb24f35a24dd6ed38"

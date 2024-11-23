@@ -1,7 +1,7 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from images.views import ImageViewSet
 
-from images.views import ImageUploadView
+router = DefaultRouter()
+router.register(r"images", ImageViewSet, basename="image")
 
-urlpatterns = [
-    path("upload/", ImageUploadView.as_view(), name="image-upload"),
-]
+urlpatterns = router.urls

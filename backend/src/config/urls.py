@@ -23,7 +23,7 @@ urlpatterns = [
         name="token_refresh",
     ),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("images/", include("images.urls")),
+    path("", include("images.urls")),
     path("", include(config.routers.category_router.urls)),
     path("", include(config.routers.tag_router.urls)),
 ]
