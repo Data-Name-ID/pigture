@@ -4,24 +4,42 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 import core.permissions
+import images.permissions
 from images.models import Image, Tiles
 from images.serializers import ImageSerializer, TilesSerializer
 from images.tasks import process_image
 from marking.models import Category, Tag
+
+from core.permissions import is_in_group
 
 
 class ImageViewSet(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [core.permissions.HasGroupPermission]
+    permission_classes = [
+        core.permissions.HasGroupPermission,
+        images.permissions.IsImageAuthor,
+    ]
     required_groups = {
         "GET": ["main_docs", "docs"],
         "POST": ["main_docs", "docs", "labs"],
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if is_in_group(user, "labs"):
+            queryset = queryset.filter(author=user)
+
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
     def list(self, request, *args, **kwargs):
-        queryset = self.queryset
+        queryset = self.get_queryset()
 
         category_id = request.query_params.get("category")
         if category_id:
