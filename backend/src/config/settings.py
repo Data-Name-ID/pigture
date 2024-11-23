@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
     'core.apps.CoreConfig',
     'images.apps.ImagesConfig',
     'marking.apps.MarkingConfig',
@@ -113,6 +114,14 @@ AUTH_PASSWORD_VALIDATORS = [
         ),
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 USE_I18N = True
 LANGUAGE_CODE = 'ru-ru'
