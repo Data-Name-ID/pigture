@@ -9,10 +9,9 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-import config.routers
+import marking.urls
 import images.urls
-
-API_PREFIX = "api/"
+import patients.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,9 +27,8 @@ urlpatterns = [
     ),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("", include(images.urls)),
-    path(API_PREFIX, include(config.routers.category_router.urls)),
-    path(API_PREFIX, include(config.routers.tag_router.urls)),
-    path(API_PREFIX, include(config.routers.patients_router.urls)),
+    path("", include(marking.urls)),
+    path("", include(patients.urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/schema/swagger-ui/",
