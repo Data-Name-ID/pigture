@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("file", models.FileField(upload_to=images.models.Tiles._upload_to)),
+                ("file", models.FileField(upload_to=images.models._upload_to)),
                 (
                     "image",
                     models.OneToOneField(

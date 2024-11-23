@@ -4,7 +4,10 @@ from django.db import models
 import core.models
 import marking.models
 import patients.models
-import core.models
+
+
+def _upload_to(self, filename):
+    return f"tiles/{self.image_id}/{filename}"
 
 
 class Image(core.models.AbstractNameModel):
@@ -58,8 +61,8 @@ class Image(core.models.AbstractNameModel):
 
 
 class Tiles(models.Model):
-    def _upload_to(self, filename):
-        return f"tiles/{self.image_id}/{filename}"
-
     image = models.OneToOneField(Image, on_delete=models.CASCADE)
     file = models.FileField(upload_to=_upload_to)
+
+    def __str__(self) -> str:
+        return f"{self.image} - {self.file}"

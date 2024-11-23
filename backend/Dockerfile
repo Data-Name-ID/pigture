@@ -1,4 +1,4 @@
-FROM python:3.12 AS builder
+FROM python:3.12-alpine AS builder
 
 WORKDIR /backend
 RUN pip install --no-cache-dir poetry
@@ -8,7 +8,9 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry install --without lint --no-interaction --no-ansi
 
 
-FROM python:3.12
+FROM python:3.12-alpine
+
+RUN apk add vips vips-tools vips-dev
 
 WORKDIR /backend
 ENV PYTHONUNBUFFERED=1
