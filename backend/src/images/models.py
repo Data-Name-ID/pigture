@@ -19,6 +19,23 @@ class Image(models.Model):
         blank=True,
         help_text="Выберите теги",
     )
+    name = models.CharField(
+        max_length=255,
+        verbose_name="название",
+        null=True,
+        blank=True,
+    )
+    description = models.TextField(
+        verbose_name="описание",
+        null=True,
+        blank=True,
+    )
+    metadata = models.JSONField(
+        verbose_name="мета данные",
+        default=dict,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "картинка"
