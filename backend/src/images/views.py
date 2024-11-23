@@ -1,11 +1,10 @@
-from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from images.models import Image, Tiles
-from images.serializers import ImageSerializer
+from images.serializers import ImageSerializer, TilesSerializer
 from images.tasks import process_image
 from marking.models import Category, Tag
 
@@ -82,3 +81,15 @@ class ImageViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+
+class TilesViewSet(ModelViewSet):
+    queryset = Tiles.objects.all()
+    serializer_class = TilesSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        image_id = kwargs.get("pk")
+        return Response(
+            {"path": Tiles.objects.get(image_id=image_id).file.url},
+            status=status.HTTP_200_OK,
+        )
