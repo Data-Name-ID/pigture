@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     "rest_framework_simplejwt",
     "core.apps.CoreConfig",
     "images.apps.ImagesConfig",
@@ -121,6 +123,24 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": (
+        "rest_framework.pagination.PageNumberPagination"
+    ),
+    "PAGE_SIZE": 10,
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Our project",
+    "DESCRIPTION": "Description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
 }
 
 USE_I18N = True
@@ -137,10 +157,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-}
+CELERY_BROKER_URL = (
+    f"redis://{env('REDIS_HOST', default='localhost')}:"
+    f"{env('REDIS_PORT', default='6379')}/"
+    f"{env('REDIS_DB', default='0')}"
+)
+CELERY_RESULT_BACKEND = (
+    f"redis://{env('REDIS_HOST', default='localhost')}:"
+    f"{env('REDIS_PORT', default='6379')}/"
+    f"{env('REDIS_DB', default='0')}"
+)
+CELERY_IMPORTS = ["images.tasks"]
+
 
 if DEBUG:
     INSTALLED_APPS = [

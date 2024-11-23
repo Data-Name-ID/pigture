@@ -13,5 +13,8 @@ class AbstractNameModel(models.Model):
     class Meta:
         abstract = True
 
+    class Meta:
+        abstract = True
+
     def __str__(self):
         return self.name

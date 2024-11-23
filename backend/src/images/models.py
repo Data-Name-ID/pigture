@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
 
+import core.models
 import marking.models
 import patients.models
 import core.models
@@ -7,6 +9,13 @@ import core.models
 
 class Image(core.models.AbstractNameModel):
     image = models.ImageField(verbose_name="изображение", upload_to="images/")
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name="images",
+        null=True,
+        blank=True,
+    )
     uploaded_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(
         marking.models.Category,
@@ -30,7 +39,7 @@ class Image(core.models.AbstractNameModel):
     )
     description = models.TextField(
         verbose_name="описание",
-        null=True,
+        default="",
         blank=True,
     )
     metadata = models.JSONField(
@@ -46,3 +55,11 @@ class Image(core.models.AbstractNameModel):
 
     def __str__(self):
         return f"{self.image.name} - {self.uploaded_at}"
+
+
+class Tiles(models.Model):
+    def _upload_to(self, filename):
+        return f"tiles/{self.image_id}/{filename}"
+
+    image = models.OneToOneField(Image, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=_upload_to)

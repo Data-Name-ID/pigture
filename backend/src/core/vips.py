@@ -19,15 +19,10 @@ def split_image(
     )
 
 
-def compress(
-    img_path: str,
-    output_dir: str,
-    quality: int,
-) -> None:
+def compress(img_path: str, output_dir: str, quality: int) -> None:
     img_path = Path(img_path)
-    image = pyvips.Image.new_from_file(img_path)
-
-    image.write_to_file(
-        output_dir / img_path.name,
-        Q=quality,
-    )
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    image = pyvips.Image.new_from_file(str(img_path), access="sequential")
+    output_path = output_dir / img_path.with_suffix(".jpg").name
+    image.write_to_file(str(output_path), Q=quality)
