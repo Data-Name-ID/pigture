@@ -1,22 +1,35 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-import core.models
-import marking.models
-import patients.models
-import core.models
+from images.models import Image
 
 
-class Note(core.models.AbstractNameModel):
+class Note(models.Model):
     author = models.ForeignKey(
         User,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name="notes",
-        null=True,
-        blank=True,
+    )
+    image = models.ForeignKey(
+        Image,
+        on_delete=models.CASCADE,
+        related_name="notes",
+    )
+    name = models.CharField(
+        verbose_name="название",
+        db_column="name",
+        help_text="Укажите название заметки",
+        max_length=150,
     )
     description = models.TextField(
         verbose_name="описание",
         default="",
         blank=True,
     )
+
+    class Meta:
+        verbose_name = "заметка"
+        verbose_name_plural = "заметки"
+
+    def __str__(self):
+        return f"Заметка пользователя {self.author.name}"

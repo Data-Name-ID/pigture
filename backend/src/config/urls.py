@@ -12,6 +12,7 @@ from rest_framework_simplejwt.views import (
 import marking.urls
 import images.urls
 import patients.urls
+import notes.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,6 +30,7 @@ urlpatterns = [
     path("", include(images.urls)),
     path("", include(marking.urls)),
     path("", include(patients.urls)),
+    path("", include(notes.urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/schema/swagger-ui/",
