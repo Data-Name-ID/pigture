@@ -3,12 +3,11 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+import core.permissions
 from images.models import Image, Tiles
 from images.serializers import ImageSerializer, TilesSerializer
 from images.tasks import process_image
 from marking.models import Category, Tag
-
-import core.permissions
 
 
 class ImageViewSet(ModelViewSet):
@@ -21,8 +20,8 @@ class ImageViewSet(ModelViewSet):
         "POST": ["main_docs", "docs", "labs"],
     }
 
-    def create(self, request, *args, **kwargs):
-        file = request.FILES.get("image")
+    def post(self, request, *args, **kwargs):
+        file = request.FILES.get("file")
         if not file:
             return Response(
                 {"error": "No file provided"},
