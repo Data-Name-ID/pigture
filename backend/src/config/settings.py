@@ -4,88 +4,88 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(BASE_DIR.parent / '.env')
+environ.Env.read_env(BASE_DIR.parent / ".env")
 env = environ.Env()
-env.prefix = 'DJANGO_'
+env.prefix = "BACKEND_"
 
-DEBUG = env.bool('DEBUG', default=True)
-SECRET_KEY = env.str('SECRET_KEY', default='some_key')
+DEBUG = env.bool("DEBUG", default=True)
+SECRET_KEY = env.str("SECRET_KEY", default="some_key")
 
-DEFAULT_HOSTS = ['localhost', '127.0.0.1']
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=DEFAULT_HOSTS)
-INTERNAL_IPS = env.list('INTERNAL_IPS', default=ALLOWED_HOSTS)
+DEFAULT_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=DEFAULT_HOSTS)
+INTERNAL_IPS = env.list("INTERNAL_IPS", default=ALLOWED_HOSTS)
 
-CSRF_TRUSTED_ORIGINS = env.list('ALLOWED_ORIGINS')
+CSRF_TRUSTED_ORIGINS = env.list("ALLOWED_ORIGINS")
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
     CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
 
-DOCKER = env.bool('DOCKER', default=False)
+DOCKER = env.bool("DOCKER", default=False)
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'corsheaders',
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'core.apps.CoreConfig',
-    'images.apps.ImagesConfig',
-    'marking.apps.MarkingConfig',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "corsheaders",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "core.apps.CoreConfig",
+    "images.apps.ImagesConfig",
+    "marking.apps.MarkingConfig",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = (
     {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env.str('DB_NAME'),
-            'USER': env.str('DB_USER'),
-            'PASSWORD': env.str('DB_PASSWORD'),
-            'HOST': env.str('DB_HOST'),
-            'PORT': env.int('DB_PORT'),
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env.str("DB_NAME"),
+            "USER": env.str("DB_USER"),
+            "PASSWORD": env.str("DB_PASSWORD"),
+            "HOST": env.str("DB_HOST"),
+            "PORT": env.int("DB_PORT"),
         },
     }
     if DOCKER
     else {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         },
     }
 )
@@ -93,65 +93,65 @@ DATABASES = (
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': (
-            'django.contrib.auth.password_validation'
-            '.UserAttributeSimilarityValidator'
+        "NAME": (
+            "django.contrib.auth.password_validation"
+            ".UserAttributeSimilarityValidator"
         ),
     },
     {
-        'NAME': (
-            'django.contrib.auth.password_validation.MinimumLengthValidator'
+        "NAME": (
+            "django.contrib.auth.password_validation.MinimumLengthValidator"
         ),
     },
     {
-        'NAME': (
-            'django.contrib.auth.password_validation.CommonPasswordValidator'
+        "NAME": (
+            "django.contrib.auth.password_validation.CommonPasswordValidator"
         ),
     },
     {
-        'NAME': (
-            'django.contrib.auth.password_validation.NumericPasswordValidator'
+        "NAME": (
+            "django.contrib.auth.password_validation.NumericPasswordValidator"
         ),
     },
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
 USE_I18N = True
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = "ru-ru"
 
 USE_TZ = True
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 if DEBUG:
     INSTALLED_APPS = [
         *INSTALLED_APPS,
-        'debug_toolbar',
+        "debug_toolbar",
     ]
     MIDDLEWARE = [
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
         *MIDDLEWARE,
     ]
 
     DEBUG_TOOLBAR_CONFIG = (
         {
-            'SHOW_TOOLBAR_CALLBACK': lambda _: DEBUG,
+            "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
         }
         if DOCKER
         else {
-            'IS_RUNNING_TESTS': False,
+            "IS_RUNNING_TESTS": False,
         }
     )

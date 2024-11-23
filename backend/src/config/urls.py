@@ -11,21 +11,21 @@ from rest_framework_simplejwt.views import (
 import config.routers
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path(
-        'token/',
+        "token/",
         TokenObtainPairView.as_view(),
-        name='token_obtain_pair',
+        name="token_obtain_pair",
     ),
     path(
-        'token/refresh/',
+        "token/refresh/",
         TokenRefreshView.as_view(),
-        name='token_refresh',
+        name="token_refresh",
     ),
-    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('images/', include('images.urls')),
-    path('', include(config.routers.category_router.urls)),
-    path('', include(config.routers.tag_router.urls)),
+    path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("images/", include("images.urls")),
+    path("", include(config.routers.category_router.urls)),
+    path("", include(config.routers.tag_router.urls)),
 ]
 
 

@@ -5,34 +5,53 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('abstractmodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='core.abstractmodel')),
+                (
+                    "abstractmodel_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="core.abstractmodel",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'категория',
-                'verbose_name_plural': 'категории',
+                "verbose_name": "категория",
+                "verbose_name_plural": "категории",
             },
-            bases=('core.abstractmodel',),
+            bases=("core.abstractmodel",),
         ),
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('abstractmodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='core.abstractmodel')),
+                (
+                    "abstractmodel_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="core.abstractmodel",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'тег',
-                'verbose_name_plural': 'теги',
+                "verbose_name": "тег",
+                "verbose_name_plural": "теги",
             },
-            bases=('core.abstractmodel',),
+            bases=("core.abstractmodel",),
         ),
     ]

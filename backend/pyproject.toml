@@ -34,13 +34,7 @@ target-version = "py312"
 preview = true
 
 select = ["ALL"]
-ignore = ["D", "DOC", "ANN", "RUF001", "RUF002", "RUF003", "CPY", "RUF012"]
-
-[tool.ruff.format]
-quote-style = "single"
-
-[tool.ruff.lint.flake8-quotes]
-inline-quotes = "single"
+ignore = ["D", "DOC", "ANN", "RUF001", "RUF002", "RUF003", "CPY", "RUF012", "ARG002", "PLR6301"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

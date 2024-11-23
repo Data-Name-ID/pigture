@@ -4,7 +4,10 @@ import pyvips
 
 
 def split_image(
-    img_path: str, output_dir: str, tile_size: int, quality: int,
+    img_path: str,
+    output_dir: str,
+    tile_size: int,
+    quality: int,
 ) -> None:
     img_suffix = Path(img_path).suffix
 
@@ -12,12 +15,14 @@ def split_image(
     image.dzsave(
         output_dir,
         tile_size=tile_size,
-        suffix=f'.{img_suffix}[Q={quality}]',
+        suffix=f".{img_suffix}[Q={quality}]",
     )
 
 
 def compress(
-    img_path: str, output_dir: str, quality: int,
+    img_path: str,
+    output_dir: str,
+    quality: int,
 ) -> None:
     img_path = Path(img_path)
     image = pyvips.Image.new_from_file(img_path)
