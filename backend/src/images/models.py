@@ -3,9 +3,11 @@ from django.db import models
 
 import core.models
 import marking.models
+import patients.models
+import core.models
 
 
-class Image(core.models.NameAbstractModel):
+class Image(core.models.AbstractNameModel):
     image = models.ImageField(verbose_name="изображение", upload_to="images/")
     author = models.ForeignKey(
         User,
@@ -28,13 +30,20 @@ class Image(core.models.NameAbstractModel):
         blank=True,
         help_text="Выберите теги",
     )
+    patient = models.ForeignKey(
+        patients.models.Patient,
+        on_delete=models.CASCADE,
+        related_name="images",
+        null=True,
+        blank=True,
+    )
     description = models.TextField(
         verbose_name="описание",
         default="",
         blank=True,
     )
     metadata = models.JSONField(
-        verbose_name="мета данные",
+        verbose_name="метаданные",
         default=dict,
         null=True,
         blank=True,
@@ -46,3 +55,11 @@ class Image(core.models.NameAbstractModel):
 
     def __str__(self):
         return f"{self.image.name} - {self.uploaded_at}"
+
+
+class Tiles(models.Model):
+    def _upload_to(self, filename):
+        return f"tiles/{self.image_id}/{filename}"
+
+    image = models.OneToOneField(Image, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=_upload_to)

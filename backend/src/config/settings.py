@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "images.apps.ImagesConfig",
     "marking.apps.MarkingConfig",
+    "patients.apps.PatientsConfig",
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,19 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CELERY_BROKER_URL = (
+    f"redis://{env('REDIS_HOST', default='localhost')}:"
+    f"{env('REDIS_PORT', default='6379')}/"
+    f"{env('REDIS_DB', default='0')}"
+)
+CELERY_RESULT_BACKEND = (
+    f"redis://{env('REDIS_HOST', default='localhost')}:"
+    f"{env('REDIS_PORT', default='6379')}/"
+    f"{env('REDIS_DB', default='0')}"
+)
+CELERY_IMPORTS = ["images.tasks"]
+
 
 if DEBUG:
     INSTALLED_APPS = [
