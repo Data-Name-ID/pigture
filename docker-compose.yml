@@ -1,0 +1,39 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    depends_on:
+      postgres-backend:
+        condition: service_healthy
+      rabbit-backend:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  postgres-backend:
+    image: postgres:17-alpine
+    restart: always
+    ports:
+      - ${BACKEND_DB_PORT}:${BACKEND_DB_PORT}
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${BACKEND_DB_USER}
+      - POSTGRES_PASSWORD=${BACKEND_DB_PASSWORD}
+      - POSTGRES_PORT=${BACKEND_DB_PORT}
+      - POSTGRES_DB=${BACKEND_DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    command: -p $${POSTGRES_PORT}
+
+  rabbit-backend:
+    image: rabbitmq:4-alpine
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 1s
+      timeout: 3s
+      retries: 5
