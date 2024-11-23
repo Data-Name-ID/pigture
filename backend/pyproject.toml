@@ -17,7 +17,7 @@ pillow = "^11.0.0"
 pyvips = "^2.2.3"
 gunicorn = "^23.0.0"
 drf-spectacular = {extras = ["sidecar"], version = "^0.27.2"}
-celery = "5.0.0"
+celery = "^5.4.0"
 redis = "^5.2.0"
 psycopg2-binary = "^2.9.10"
 

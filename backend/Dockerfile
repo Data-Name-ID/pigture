@@ -7,9 +7,10 @@ RUN poetry config virtualenvs.in-project true
 COPY poetry.lock pyproject.toml ./
 RUN poetry export --without-hashes -o requirements.txt
 
-FROM python:3.12-alpine
+FROM python:3.12
 
-RUN apk add build-base vips vips-tools vips-dev
+RUN apt update -y
+RUN apt install -y --no-install-recommends build-essential libvips-dev
 
 WORKDIR /backend
 ENV PYTHONUNBUFFERED=1
