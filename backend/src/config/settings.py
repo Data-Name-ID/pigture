@@ -4,7 +4,7 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(BASE_DIR.parent / ".env")
+environ.Env.read_env(BASE_DIR.parent.parent / ".env")
 env = environ.Env()
 env.prefix = "BACKEND_"
 
@@ -14,7 +14,6 @@ SECRET_KEY = env.str("SECRET_KEY", default="some_key")
 DEFAULT_HOSTS = ["localhost", "127.0.0.1"]
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=DEFAULT_HOSTS)
 INTERNAL_IPS = env.list("INTERNAL_IPS", default=ALLOWED_HOSTS)
-
 CSRF_TRUSTED_ORIGINS = env.list("ALLOWED_ORIGINS")
 
 if DEBUG:
@@ -135,6 +134,11 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
 
 if DEBUG:
     INSTALLED_APPS = [
