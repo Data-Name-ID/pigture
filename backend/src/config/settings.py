@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "images.apps.ImagesConfig",
     "marking.apps.MarkingConfig",
     "patients.apps.PatientsConfig",
+    "notes.apps.NotesConfig",
 ]
 
 MIDDLEWARE = [
