@@ -1,11 +1,15 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 import axiosInstance from "./utils/axiosInstance";
 import toast from "react-hot-toast";
+import { config } from "@/config";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import FileUploadProgress from "./file-upload-progress";
 
 interface UploadState {
     progress: number;
@@ -22,13 +26,19 @@ export function FileUploader() {
     });
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [filename, setFilename] = useState<string | null>(null);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedFile(e.target.files[0]);
+            setFilename(e.target.files[0].name);
         }
     };
-
+    const handleFilenameChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value && selectedFile) {
+            setFilename(e.target.value);
+        }
+    };
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
@@ -36,35 +46,58 @@ export function FileUploader() {
             toast.error("Выберите файл.");
             return;
         }
+        if (!filename) {
+            toast.error("Некорректное файловое имя.");
+            return;
+        }
+        const fileExtension = selectedFile.name.split(".").pop();
+        if (!fileExtension) {
+            toast.error("Запрященный файл.");
+            return;
+        }
+        if (!filename.endsWith(fileExtension)) {
+            toast.error("Расширение не совпадают.");
+            return;
+        }
 
         const formData = new FormData();
-        formData.append("image", new Blob([selectedFile]), selectedFile.name);
+
+        formData.append("name", filename);
+        formData.append("file", new Blob([selectedFile]), filename);
 
         try {
             await axiosInstance
-                .post("http://localhost:8000/images/upload/", formData, {
-                    headers: { "Access-Control-Allow-Origin": "*" },
+                .post(`${config.API}/images/upload/`, formData, {
                     onUploadProgress: (progressEvent) => {
-                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total!);
-                        setUploadState((prev) => ({ ...prev, progress: percentCompleted }));
+                        // const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total!);
+                        setUploadState((prev) => ({ ...prev, progress: progressEvent.loaded }));
                     },
                 })
                 .catch((err) => {
                     toast.error(`Ошибка: ${err}`);
                 });
-
             setUploadState((prev) => ({ ...prev, success: true }));
             setSelectedFile(null);
         } catch (error) {
             toast.error(`Ошибка: ${error}`);
         } finally {
             setSelectedFile(null);
+            setFilename(null);
         }
     };
 
     return (
         <form className="w-full max-w-md mx-auto p-6 flex flex-col gap-4" onSubmit={handleSubmit}>
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+            {selectedFile && filename && uploadState.progress > 0 && (
+                <FileUploadProgress fileName={filename} fileSize={selectedFile.size} progress={uploadState.progress} />
+            )}
+            {filename && (
+                <>
+                    <Label htmlFor="filname">Имя файла:</Label>
+                    <Input type="text" value={filename} onChange={handleFilenameChange} id="filename" />
+                </>
+            )}
+            <Input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
             <Button
                 type="button"
                 onClick={() => {
@@ -77,12 +110,7 @@ export function FileUploader() {
             <Button disabled={!Boolean(selectedFile)} onClick={handleSubmit} type="submit">
                 Загрузить
             </Button>
-            {uploadState.progress > 0 && (
-                <div className="fixed right-4 top-4 z-10 ">
-                    <LoaderCircle className="w-full animate-spin h-12">0%</LoaderCircle>
-                    <span className="text-sm absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">{uploadState.progress}%</span>
-                </div>
-            )}
+
             {uploadState.error && (
                 <div className="flex items-center space-x-2 text-red-500">
                     <AlertCircle size={16} />
