@@ -18,4 +18,4 @@ COPY --from=builder /backend/.venv/ ./.venv/
 
 COPY ./src/ .
 
-CMD $BIN_PATH/python manage.py migrate && $BIN_PATH/python manage.py collectstatic --noinput && $BIN_PATH/gunicorn config.wsgi:application --bind 0.0.0.0:$BACKEND_PORT
+CMD $BIN_PATH/python manage.py migrate && $BIN_PATH/python manage.py collectstatic --noinput && python manage.py createadmin && $BIN_PATH/gunicorn config.wsgi:application --bind 0.0.0.0:$BACKEND_PORT
