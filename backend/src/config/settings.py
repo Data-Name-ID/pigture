@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "images.apps.ImagesConfig",
     "marking.apps.MarkingConfig",
+    "patients.apps.PatientsConfig",
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,11 @@
 from django.db import models
 
 import marking.models
+import patients.models
+import core.models
 
 
-class Image(models.Model):
+class Image(core.models.AbstractNameModel):
     image = models.ImageField(verbose_name="изображение", upload_to="images/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(
@@ -19,9 +21,10 @@ class Image(models.Model):
         blank=True,
         help_text="Выберите теги",
     )
-    name = models.CharField(
-        max_length=255,
-        verbose_name="название",
+    patient = models.ForeignKey(
+        patients.models.Patient,
+        on_delete=models.CASCADE,
+        related_name="images",
         null=True,
         blank=True,
     )
@@ -31,7 +34,7 @@ class Image(models.Model):
         blank=True,
     )
     metadata = models.JSONField(
-        verbose_name="мета данные",
+        verbose_name="метаданные",
         default=dict,
         null=True,
         blank=True,

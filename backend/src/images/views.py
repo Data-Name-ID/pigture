@@ -7,11 +7,18 @@ from images.models import Image
 from images.serializers import ImageSerializer
 from marking.models import Category, Tag
 
+import core.permissions
+
 
 class ImageViewSet(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [core.permissions.HasGroupPermission]
+    required_groups = {
+        "GET": ["main_docs", "docs"],
+        "POST": ["main_docs", "docs", "labs"],
+    }
 
     def create(self, request, *args, **kwargs):
         file = request.FILES.get("image")
@@ -49,7 +56,7 @@ class ImageViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         instance = self.get_object()
 
         if "image" in request.data:
