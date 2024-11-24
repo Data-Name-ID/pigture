@@ -69,4 +69,3 @@ class ImageViewSet(ModelViewSet):
         tags_set = image.tags.all()
         serializer = TagSerializer(tags_set, many=True)
         return Response(serializer.data)
-
