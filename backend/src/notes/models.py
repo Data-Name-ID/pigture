@@ -32,4 +32,4 @@ class Note(models.Model):
         verbose_name_plural = "заметки"
 
     def __str__(self):
-        return f"Заметка пользователя {self.author.name}"
+        return f"Заметка пользователя {self.author.username}"

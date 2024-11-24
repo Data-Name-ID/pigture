@@ -64,4 +64,4 @@ class Image(core.models.AbstractNameModel):
         verbose_name_plural = "картинки"
 
     def __str__(self):
-        return f"{self.image.name} - {self.uploaded_at}"
+        return f"{self.file.name} - {self.uploaded_at}"
