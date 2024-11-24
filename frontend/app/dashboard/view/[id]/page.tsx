@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { OSDWrapper } from "../components/OSDWrapper";
 import { config } from "@/config";
-import { getAccessToken } from "@/lib/auth";
+import { getAccessToken } from "@/lib-f/auth";
 import { Result } from "../../page";
 
 export default async function View({ params }: { params: Promise<{ id: string }> }) {

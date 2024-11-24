@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { ImagesWrapper } from "./components/imagesWrapper";
 import { config } from "@/config";
 import { ImageCard } from "./components/imageCard";
-import { getAccessToken } from "@/lib/auth";
+import { getAccessToken } from "@/lib-f/auth";
 
 export interface DjangoQueryResponse {
     count: number;

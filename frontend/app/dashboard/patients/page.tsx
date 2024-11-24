@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { config } from "@/config";
-import { getAccessToken } from "@/lib/auth";
+import { getAccessToken } from "@/lib-f/auth";
 
 export default async function Patients() {
     const resp = await fetch(`${config.API}/patients/}`, {

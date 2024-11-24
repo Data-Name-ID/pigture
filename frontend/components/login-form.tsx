@@ -9,7 +9,7 @@ import { MicroscopeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios, { HttpStatusCode } from "axios";
 import toast from "react-hot-toast";
-import { getAccessToken } from "@/lib/auth";
+import { getAccessToken } from "@/lib-f/auth";
 
 export type JWTRequestPayload = {
     username: string;
