@@ -11,9 +11,5 @@ type OSDWrapperProps = Result;
 export function OSDWrapper({ tiles }: OSDWrapperProps) {
     if (!tiles) return <h1>Не удалось загрузить...</h1>;
     const tileSource = `/api/proxy?url=${encodeURIComponent(`${config.DEV_TEMP(tiles)}`)}`;
-    return (
-        <div className="w-full h-full">
-            <OpenSeadragonViewer tileSource={tileSource} />;
-        </div>
-    );
+    return <OpenSeadragonViewer tileSource={tileSource} />;
 }

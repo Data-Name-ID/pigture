@@ -9,6 +9,7 @@ import { MicroscopeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios, { HttpStatusCode } from "axios";
 import toast from "react-hot-toast";
+import { getAccessToken } from "@/lib/auth";
 
 export type JWTRequestPayload = {
     username: string;
@@ -24,7 +25,10 @@ export default function LoginForm() {
         e.preventDefault();
         try {
             const response = await axios.post(`/api/auth/token`, {
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${await getAccessToken()}`,
+                },
                 body: JSON.stringify({ username, password } as JWTRequestPayload),
             });
             if (response.status === HttpStatusCode.Ok) {
