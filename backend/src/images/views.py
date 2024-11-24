@@ -42,4 +42,5 @@ class ImageViewSet(ModelViewSet):
         process_image.delay(image_instance.file.path, image_instance.id)
 
         image_instance.tiles = f"tiles/{image_instance.id}/tiles.dzi"
+        image_instance.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
