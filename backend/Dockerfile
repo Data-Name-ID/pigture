@@ -16,7 +16,6 @@ WORKDIR /backend
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=builder /backend/requirements.txt .
-RUN python -m pip install pip==24.0.0
 RUN pip install -r requirements.txt
 
 COPY ./src/ .
