@@ -2,16 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import OpenSeadragon from "openseadragon";
+import useWindowSize from "@/app/dashboard/view/components/adjust";
 
-const OpenSeadragonViewer = ({
-    tileSource,
-    width = "100%",
-    height = "600px",
-}: {
-    tileSource: OpenSeadragon.Options["tileSources"];
-    width?: string;
-    height?: string;
-}) => {
+const OpenSeadragonViewer = ({ tileSource }: { tileSource: OpenSeadragon.Options["tileSources"]; width?: string; height?: string }) => {
     const viewerRef = useRef(null);
     const osdInstance = useRef<OpenSeadragon.Viewer | null>(null);
 
@@ -89,7 +82,9 @@ const OpenSeadragonViewer = ({
         };
     }, [tileSource]);
 
-    return <div ref={viewerRef} style={{ width: width, height: height }}></div>;
+    const { innerWidth, innerHeight } = useWindowSize();
+
+    return <div ref={viewerRef} style={{ width: innerWidth, height: innerHeight }}></div>;
 };
 
 export default OpenSeadragonViewer;
