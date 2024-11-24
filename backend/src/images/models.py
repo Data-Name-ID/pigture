@@ -52,6 +52,7 @@ class Image(core.models.AbstractNameModel):
         null=True,
         blank=True,
     )
+    tiles = models.FileField(null=True, blank=True, upload_to=_upload_to)
 
     class Meta:
         verbose_name = "картинка"
@@ -59,11 +60,3 @@ class Image(core.models.AbstractNameModel):
 
     def __str__(self):
         return f"{self.file.name} - {self.uploaded_at}"
-
-
-class Tiles(models.Model):
-    image = models.OneToOneField(Image, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=_upload_to)
-
-    def __str__(self) -> str:
-        return f"{self.image} - {self.file}"

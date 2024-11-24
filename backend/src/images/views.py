@@ -1,13 +1,17 @@
 from rest_framework import status, decorators
 from rest_framework import permissions
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.parsers import (
+    FormParser,
+    JSONParser,
+    MultiPartParser,
+)
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 import core.permissions
 from core.permissions import is_in_group
-from images.models import Image, Tiles
-from images.serializers import ImageSerializer, TilesSerializer
+from images.models import Image
+from images.serializers import ImageSerializer
 from notes.serializers import NoteSerializer
 from marking.serializers import TagSerializer
 from images.tasks import process_image
@@ -17,7 +21,7 @@ from images.permissions import IsImageAuthor
 class ImageViewSet(ModelViewSet):
     queryset = Image.objects.all().order_by("-uploaded_at")
     serializer_class = ImageSerializer
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
     permission_classes = [core.permissions.HasGroupPermission]
     required_groups = {
         "GET": ["main_docs", "docs"],
@@ -42,19 +46,14 @@ class ImageViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def create(self, request):
-        serializer = self.serializer_class(
-            data=request.data,
-            context={"request": request},
-        )
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        image_instance = serializer.save()
+        image_instance: Image = serializer.save(author=self.request.user)
 
         process_image.delay(image_instance.file.path, image_instance.id)
-        Tiles.objects.create(
-            image=image_instance,
-            file=f"tiles/{image_instance.id}/tiles.dzi",
-        )
+
+        image_instance.tiles = f"tiles/{image_instance.id}/tiles.dzi"
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @decorators.action(methods=["get"], detail=True)
@@ -71,9 +70,3 @@ class ImageViewSet(ModelViewSet):
         serializer = TagSerializer(tags_set, many=True)
         return Response(serializer.data)
 
-
-class TilesViewSet(ModelViewSet):
-    queryset = Tiles.objects.all()
-    serializer_class = TilesSerializer
-
-    http_method_names = ["get"]

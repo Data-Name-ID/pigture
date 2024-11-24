@@ -197,3 +197,10 @@ if DEBUG:
             "IS_RUNNING_TESTS": False,
         }
     )
+
+
+FILE_UPLOAD_HANDLERS = [
+    # "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+    # "path.to.LargeFileUploadHandler",
+]
