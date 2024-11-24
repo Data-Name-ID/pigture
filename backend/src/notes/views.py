@@ -15,3 +15,9 @@ class NotesViewSet(viewsets.ModelViewSet):
         "PUT": ["main_docs", "docs"],
         "PATCH": ["main_docs", "docs"],
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        return queryset.filter(author=user)
