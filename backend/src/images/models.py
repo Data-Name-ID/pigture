@@ -6,7 +6,7 @@ import marking.models
 import patients.models
 
 
-def _upload_to(self, filename):
+def _upload_tile(self, filename):
     return f"tiles/{self.image_id}/{filename}"
 
 
@@ -52,7 +52,12 @@ class Image(core.models.AbstractNameModel):
         null=True,
         blank=True,
     )
-    tiles = models.FileField(null=True, blank=True, upload_to=_upload_to)
+    tiles = models.FileField(null=True, blank=True, upload_to=_upload_tile)
+    thumbnail = models.ImageField(
+        upload_to="thumbnails/",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "картинка"

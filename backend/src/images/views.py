@@ -1,3 +1,4 @@
+from django_filters import rest_framework as filters
 from rest_framework import status
 from rest_framework.parsers import (
     FormParser,
@@ -19,6 +20,9 @@ class ImageViewSet(ModelViewSet):
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     permission_classes = [core.permissions.HasGroupPermission]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ("category", "tags", "patient")
+
     required_groups = {
         "GET": ["main_docs", "docs"],
         "POST": ["main_docs", "docs", "labs"],
