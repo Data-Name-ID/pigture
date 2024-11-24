@@ -67,9 +67,8 @@ export function FileUploader() {
 
         try {
             await axiosInstance
-                .post(`${config.API}/images/upload/`, formData, {
+                .post(`${config.API}/images/`, formData, {
                     onUploadProgress: (progressEvent) => {
-                        // const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total!);
                         setUploadState((prev) => ({ ...prev, progress: progressEvent.loaded }));
                     },
                 })

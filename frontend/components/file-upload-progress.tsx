@@ -73,7 +73,7 @@ export default function FileUploadProgress({ fileName, fileSize, progress }: Fil
                             {formatBytes(bytesTransferred)} / {formatBytes(fileSize)} ({progress.toFixed(1)}%)
                         </p>
                         <p>Transfer Rate: {formatTransferRate(transferRate)}</p>
-                        <p className="font-medium">Status: {status.charAt(0).toUpperCase() + status.slice(1)}</p>
+                        <p className="font-medium">Статус {status.charAt(0).toUpperCase() + status.slice(1)}</p>
                     </div>
                 </div>
             </CardContent>

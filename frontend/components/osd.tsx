@@ -9,8 +9,8 @@ const OpenSeadragonViewer = ({
     height = "600px",
 }: {
     tileSource: OpenSeadragon.Options["tileSources"];
-    width: string;
-    height: string;
+    width?: string;
+    height?: string;
 }) => {
     const viewerRef = useRef(null);
     const osdInstance = useRef<OpenSeadragon.Viewer | null>(null);
@@ -77,7 +77,7 @@ const OpenSeadragonViewer = ({
                         REST: "rotate-cw.svg",
                     },
                 },
-                showNavigator: true, // Optional: show mini-map navigator
+                showNavigator: true,
             });
         }
 
