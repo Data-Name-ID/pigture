@@ -3,6 +3,8 @@ import { ImagesWrapper } from "./components/imagesWrapper";
 import { config } from "@/config";
 import { ImageCard } from "./components/imageCard";
 import { getAccessToken } from "@/lib-f/auth";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export interface DjangoQueryResponse {
     count: number;
@@ -41,7 +43,11 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
     return (
         <div className="flex min-h-screen w-full">
-            <ul className="hidden w-1/4 bg-muted/40 p-6 md:flex flex-col gap-4"></ul>
+            <ul className="hidden w-1/4 bg-muted/40 p-6 md:flex flex-col gap-4">
+                <Link href={"/dashboard/upload"} className="w-full">
+                    <Button variant={"default"}>Загрузить</Button>
+                </Link>
+            </ul>
             <ImagesWrapper>
                 {data.results.map((image) => (
                     <ImageCard key={image.id} {...image} />
