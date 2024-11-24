@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             name='Tiles',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to=images.models._upload_to)),
+                ('file', models.FileField(upload_to=images.models._upload_tile)),
                 ('image', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='images.image')),
             ],
         ),

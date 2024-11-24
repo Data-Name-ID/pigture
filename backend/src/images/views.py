@@ -1,5 +1,5 @@
-from rest_framework import status, decorators
-from rest_framework import permissions
+from django_filters import rest_framework as filters
+from rest_framework import decorators, permissions, status
 from rest_framework.parsers import (
     FormParser,
     JSONParser,
@@ -11,11 +11,11 @@ from rest_framework.viewsets import ModelViewSet
 import core.permissions
 from core.permissions import is_in_group
 from images.models import Image
-from images.serializers import ImageSerializer
-from notes.serializers import NoteSerializer
-from marking.serializers import TagSerializer
-from images.tasks import process_image
 from images.permissions import IsImageAuthor
+from images.serializers import ImageSerializer
+from images.tasks import process_image
+from marking.serializers import TagSerializer
+from notes.serializers import NoteSerializer
 
 
 class ImageViewSet(ModelViewSet):
@@ -23,6 +23,9 @@ class ImageViewSet(ModelViewSet):
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     permission_classes = [core.permissions.HasGroupPermission]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ("category", "tags", "patient")
+
     required_groups = {
         "GET": ["main_docs", "docs"],
         "POST": ["main_docs", "docs", "labs"],
