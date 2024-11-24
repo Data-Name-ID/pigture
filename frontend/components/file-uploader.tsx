@@ -4,12 +4,11 @@ import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 
-import axiosInstance from "./utils/axiosInstance";
 import toast from "react-hot-toast";
-import { config } from "@/config";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import FileUploadProgress from "./file-upload-progress";
+import axios from "axios";
 
 interface UploadState {
     progress: number;
@@ -66,8 +65,9 @@ export function FileUploader() {
         formData.append("file", new Blob([selectedFile]), filename);
 
         try {
-            await axiosInstance
-                .post(`${config.API}/images/`, formData, {
+            const response = (await axios
+                .postForm(`/api/proxy`, formData, {
+                    headers: { Authorization: `Bearer ${document.cookie.split(";")[0].split("=")[1]}` },
                     onUploadProgress: (progressEvent) => {
                         const percentCompleted = progressEvent.total ? (progressEvent.loaded / progressEvent.total) * 100 : 0;
                         setUploadState((prev) => ({ ...prev, progress: percentCompleted }));
@@ -75,7 +75,8 @@ export function FileUploader() {
                 })
                 .catch((err) => {
                     toast.error(`Ошибка: ${err}`);
-                });
+                })) as { statusText: string };
+            toast.success(response["statusText"]);
             setUploadState((prev) => ({ ...prev, success: true }));
             setSelectedFile(null);
         } catch (error) {

@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import axios from "axios";
 import { NextRequest } from "next/server";
 
@@ -10,6 +11,8 @@ export async function GET(request: NextRequest) {
             headers: { "Content-Type": "application/json" },
         });
     }
+
+    console.log(url);
 
     try {
         const response = await axios.get(url, {
@@ -27,4 +30,23 @@ export async function GET(request: NextRequest) {
             headers: { "Content-Type": "application/json" },
         });
     }
+}
+
+export async function POST(request: NextRequest) {
+    const authHeader = request.headers.get("Authorization");
+    if (!authHeader) {
+        return new Response(JSON.stringify({ Error: "No authorization header." }), { status: 400, headers: { "Content-Type": "application/json" } });
+    }
+    const headers: Record<string, string> = {};
+    for (const [k, v] of request.headers.entries()) headers[k] = v;
+    const response = await fetch(`${config.API}/images/`, {
+        method: "POST",
+        headers: headers,
+        body: request.body,
+        duplex: "half",
+    } as RequestInit);
+    if (!response.ok) {
+        return new Response(JSON.stringify({ Error: `Unable to pipe request to ${config.API}` }));
+    }
+    return response;
 }

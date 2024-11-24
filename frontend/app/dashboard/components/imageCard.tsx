@@ -9,7 +9,7 @@ export function ImageCard({ description, id, name, file }: ImageCardProps) {
     return (
         <Link key={id} className="aspect-square overflow-hidden" title={description} href={`/dashboard/view/${id}`}>
             <Image
-                src={config.DEV_TEMP(file).replace(".tif", "")}
+                src={config.DEV_TEMP(file).replace(".tif", ".png")}
                 alt={name}
                 width={300}
                 height={300}
