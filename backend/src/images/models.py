@@ -11,7 +11,7 @@ def _upload_to(self, filename):
 
 
 class Image(core.models.AbstractNameModel):
-    image = models.ImageField(verbose_name="изображение", upload_to="images/")
+    file = models.FileField(verbose_name="изображение", upload_to="images/")
     author = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,

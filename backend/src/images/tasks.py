@@ -3,7 +3,7 @@ from pathlib import Path
 from django.conf import settings
 
 from config.celery import app
-from core.vips import compress, split_image
+from core.vips import split_image
 
 
 @app.task
@@ -12,11 +12,6 @@ def process_image(image_path: str, image_id: int):
     split_image(
         image_path,
         settings.TILES_ROOT / f"{image_id}/tiles",
-        256,
-        75,
+        2048,
+        50,
     )
-    # compress(
-    #     image_path,
-    #     settings.MEDIA_ROOT,
-    #     60,
-    # )

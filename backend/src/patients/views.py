@@ -1,11 +1,10 @@
-from rest_framework import viewsets
-from rest_framework import decorators
+from rest_framework import decorators, viewsets
 from rest_framework.response import Response
 
+import core.permissions
+import images.serializers
 import patients.models
 import patients.serializers
-import images.serializers
-import core.permissions
 
 
 class PatientsViewSet(viewsets.ModelViewSet):

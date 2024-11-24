@@ -6,25 +6,15 @@ from images.models import Image, Tiles
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = [
-            "id",
-            "image",
-            "uploaded_at",
-            "category",
-            "tags",
-            "name",
-            "description",
-            "metadata",
-        ]
-        extra_kwargs = {"name": {"required": True}}
+        fields = "__all__"
         read_only_fields = ["uploaded_at"]
+
+    def create(self, validated_data):
+        validated_data["author"] = self.context["request"].user
+        return super().create(validated_data)
 
 
 class TilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tiles
-        fields = [
-            "id",
-            "image_id",
-            "file",
-        ]
+        fields = "__all__"

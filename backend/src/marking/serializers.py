@@ -6,16 +6,10 @@ import marking.models
 class CategorySerializer(rest_framework.serializers.ModelSerializer):
     class Meta:
         model = marking.models.Category
-        fields = (
-            marking.models.Category.id.field.name,
-            marking.models.Category.name.field.name,
-        )
+        fields = "__all__"
 
 
 class TagSerializer(rest_framework.serializers.ModelSerializer):
     class Meta:
         model = marking.models.Tag
-        fields = (
-            marking.models.Tag.id.field.name,
-            marking.models.Tag.name.field.name,
-        )
+        fields = "__all__"

@@ -1,10 +1,8 @@
 from rest_framework import viewsets
-from rest_framework import decorators
-from rest_framework.response import Response
 
+import core.permissions
 import notes.models
 import notes.serializers
-import core.permissions
 
 
 class NotesViewSet(viewsets.ModelViewSet):

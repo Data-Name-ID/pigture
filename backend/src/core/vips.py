@@ -15,7 +15,7 @@ def split_image(
     image.dzsave(
         output_dir,
         tile_size=tile_size,
-        suffix=f".{img_path.suffix}[Q={quality}]",
+        suffix=f".webp[Q={quality}]",
     )
 
 
