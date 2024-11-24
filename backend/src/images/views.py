@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 import core.permissions
+from core.permissions import is_in_group
 from images.models import Image, Tiles
 from images.serializers import ImageSerializer, TilesSerializer
 from images.tasks import process_image
@@ -19,9 +20,22 @@ class ImageViewSet(ModelViewSet):
         "POST": ["main_docs", "docs", "labs"],
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if is_in_group(user, "labs"):
+            queryset = queryset.filter(author=user)
+
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
     def create(self, request):
         serializer = self.serializer_class(
-            data=request.data, context={"request": request},
+            data=request.data,
+            context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
 
